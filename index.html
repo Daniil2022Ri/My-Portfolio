@@ -1,0 +1,903 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рыбьяков Даниил — Java Developer Резюме</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --card: #12121a;
+            --card-hover: #1a1a25;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --accent-glow: rgba(0, 255, 136, 0.15);
+            --text: #e8e8ec;
+            --text-dim: #8a8a95;
+            --text-muted: #5a5a65;
+            --border: #1e1e2e;
+            --border-hover: #2a2a3e;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ========== MATRIX CANVAS ========== */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #00ccff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            box-shadow: 0 0 60px var(--accent-glow), 0 0 120px rgba(0, 255, 136, 0.05);
+            animation: float 6s ease-in-out infinite;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--text-dim);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .hero .tagline span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ========== SECTIONS ========== */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section-title span {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* ========== SKILLS ========== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--accent-glow);
+        }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-card .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            color: var(--text);
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--accent);
+        }
+
+        /* ========== EXPERIENCE ========== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--dark));
+        }
+
+        .job {
+            position: relative;
+            padding-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .job.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .job::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .job-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .job-period {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: rgba(0, 255, 136, 0.08);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+        }
+
+        .job-company {
+            font-size: 1rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .job-desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .job-tasks {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .job-tasks li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .job-tasks li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .job-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .stack-tag {
+            background: var(--darker);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.25rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ========== PROJECTS ========== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 60px var(--accent-glow);
+        }
+
+        .project-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .project-card p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .project-card .project-link {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .project-card .project-link::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover .project-link::after {
+            transform: translateX(4px);
+        }
+
+        /* ========== CONTACTS ========== */
+        .contacts-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .hero-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .timeline {
+                padding-left: 1.5rem;
+            }
+            
+            .job::before {
+                left: -1.5rem;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        /* ========== LOADING ANIMATION ========== */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: var(--border);
+            border-radius: 1px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .loader-bar::after {
+            content: '';
+            display: block;
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            animation: load 1.5s ease-out forwards;
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="page-loader" id="loader">
+        <div class="loader-text">&lt;init&gt; portfolio...</div>
+        <div class="loader-bar"></div>
+    </div>
+
+    <!-- Matrix Background -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-avatar">DR</div>
+        <h1>Рыбьяков Даниил</h1>
+        <p class="subtitle">Java Developer</p>
+        <p class="tagline">
+            5+ лет коммерческого опыта в высоконагруженных системах 
+            <span>финтех</span> и <span>e-commerce</span>. Специализация — микросервисы, 
+            event-driven архитектура, интеграции. Путь от legacy-монолита до production-ready микросервисов.
+        </p>
+        <div class="contacts-bar" style="margin-top: 2rem;">
+            <a href="tel:+79284322535" class="contact-link">📞 +7 (928) 410-26-69</a>
+            <a href="mailto:dryniakov@mail.ru" class="contact-link">📩 Почта - dryniakov@mail.ru</a>
+            <a href="https://t.me/danilRyDeveloper" target="_blank" class="contact-link">💬 Telegram - @danilRyDeveloper</a>
+        </div>
+        <div class="scroll-hint">
+            <span>листай вниз</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2 class="section-title">Стек <span>// skills</span></h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>⚡ Языки</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">Java 8-21</span>
+                    <span class="skill-tag">Kotlin</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C#</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🌱 Frameworks</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">Spring Security</span>
+                    <span class="skill-tag">Spring Cloud</span>
+                    <span class="skill-tag">Spring AI</span>
+                    <span class="skill-tag">Spring Batch</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>💾 Базы данных</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">Oracle DB</span>
+                    <span class="skill-tag">Redis</span>
+                    <span class="skill-tag">Elasticsearch</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>📨 Messaging</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">Apache Kafka</span>
+                    <span class="skill-tag">RabbitMQ</span>
+                    <span class="skill-tag">gRPC</span>
+                    <span class="skill-tag">REST API</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🐳 DevOps</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Kubernetes</span>
+                    <span class="skill-tag">GitLab CI</span>
+                    <span class="skill-tag">Jenkins</span>
+                    <span class="skill-tag">Grafana</span>
+                    <span class="skill-tag">ELK Stack</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🧪 Тестирование</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">JUnit 5</span>
+                    <span class="skill-tag">Mockito</span>
+                    <span class="skill-tag">Integration Tests</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🧠 Архитектура</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">DDD</span>
+                    <span class="skill-tag">CQRS</span>
+                    <span class="skill-tag">Microservices</span>
+                    <span class="skill-tag">Event-Driven</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>🔧 Инструменты</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Maven</span>
+                    <span class="skill-tag">Gradle</span>
+                    <span class="skill-tag">Apache Camel</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+        <h2 class="section-title">Опыт <span>// experience</span></h2>
+        <div class="timeline">
+            <div class="job">
+                <div class="job-header">
+                    <h3 class="job-title">Java-разработчик</h3>
+                    <span class="job-period">Июль 2025 — наст. время</span>
+                </div>
+                <p class="job-company">Next fin Technologies — B2B платёжная платформа</p>
+                <p class="job-desc">Высоконагруженная микросервисная платформа</p>
+                <ul class="job-tasks">
+                    <li>Разработка новых микросервисов и фич (Spring Boot 3.x, Java 21)</li>
+                    <li>Интеграция с платёжными провайдерами через REST и gRPC</li>
+                    <li>Kafka — продюсеры и консьюмеры событий</li>
+                    <li>Слой данных: PostgreSQL, Spring Data JPA, Hibernate</li>
+                    <li>Покрытие кода юнит и интеграционными тестами</li>
+                    <li>Code review, рефакторинг, Scrum</li>
+                </ul>
+                <div class="job-stack">
+                    <span class="stack-tag">Java 21</span>
+                    <span class="stack-tag">Spring Boot</span>
+                    <span class="stack-tag">Kafka</span>
+                    <span class="stack-tag">PostgreSQL</span>
+                    <span class="stack-tag">Redis</span>
+                    <span class="stack-tag">Docker</span>
+                    <span class="stack-tag">gRPC</span>
+                    <span class="stack-tag">Grafana</span>
+                </div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3 class="job-title">Java-разработчик</h3>
+                    <span class="job-period">Август 2024 — Июль 2025</span>
+                </div>
+                <p class="job-company">Ideal — миграция монолита на микросервисы</p>
+                <ul class="job-tasks">
+                    <li>Выделение отдельных сервисов, поддержка параллельного запуска</li>
+                    <li>Интеграции с SAP и 1С через Apache Camel</li>
+                    <li>Асинхронные воркеры на RabbitMQ</li>
+                    <li>DDD-подход, агрегаты, доменные события</li>
+                    <li>Batch-обработка отчётности на Spring Batch</li>
+                    <li>Устранение уязвимостей OWASP Top 10</li>
+                </ul>
+                <div class="job-stack">
+                    <span class="stack-tag">Java 17</span>
+                    <span class="stack-tag">Spring Security</span>
+                    <span class="stack-tag">Oracle DB</span>
+                    <span class="stack-tag">RabbitMQ</span>
+                    <span class="stack-tag">Apache Camel</span>
+                    <span class="stack-tag">Spring Batch</span>
+                    <span class="stack-tag">Jenkins</span>
+                    <span class="stack-tag">ELK</span>
+                </div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3 class="job-title">Java-разработчик</h3>
+                    <span class="job-period">Июль 2022 — Август 2024</span>
+                </div>
+                <p class="job-company">ООО «Softline Решения» — e-commerce backend</p>
+                <ul class="job-tasks">
+                    <li>Backend: каталог товаров, корзина, оформление заказа</li>
+                    <li>Интеграция с Сбербанк Эквайринг, ЮKassa</li>
+                    <li>Поиск на Elasticsearch: фильтры, автодополнение, фасетный поиск</li>
+                    <li>Интеграция с CRM (Bitrix24) и WMS через REST/SOAP</li>
+                    <li>Тесты: JUnit 5, Mockito, coverage ~75%</li>
+                    <li>Миграция монолита: выделение сервиса каталога</li>
+                </ul>
+                <div class="job-stack">
+                    <span class="stack-tag">Java 11</span>
+                    <span class="stack-tag">Spring MVC</span>
+                    <span class="stack-tag">MySQL</span>
+                    <span class="stack-tag">Elasticsearch</span>
+                    <span class="stack-tag">Redis</span>
+                    <span class="stack-tag">GitLab CI</span>
+                </div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3 class="job-title">Java-разработчик</h3>
+                    <span class="job-period">Апрель 2021 — Июль 2022</span>
+                </div>
+                <p class="job-company">ООО «КОДИКС» — портал документооборота</p>
+                <ul class="job-tasks">
+                    <li>Модули загрузки документов с версионированием</li>
+                    <li>REST API для мобильного приложения</li>
+                    <li>Интеграция с КриптоПро DSS</li>
+                    <li>SQL-запросы и хранимые процедуры (PostgreSQL)</li>
+                    <li>Рефакторинг legacy-кода, code review</li>
+                </ul>
+                <div class="job-stack">
+                    <span class="stack-tag">Java 8</span>
+                    <span class="stack-tag">Spring</span>
+                    <span class="stack-tag">Hibernate</span>
+                    <span class="stack-tag">PostgreSQL</span>
+                    <span class="stack-tag">Maven</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2 class="section-title">Проекты <span>// projects</span></h2>
+        <div class="projects-grid">
+            <!-- Добавляй свои проекты сюда -->
+            <a href="#" class="project-card" target="_blank">
+                <h3>🚀 Проект 1</h3>
+                <p>Описание проекта. Здесь можно добавить ссылку на GitHub или демо.</p>
+                <span class="project-link">github.com/username/repo →</span>
+            </a>
+            <a href="#" class="project-card" target="_blank">
+                <h3>⚡ Проект 2</h3>
+                <p>Описание проекта. Замени ссылку и описание на свои.</p>
+                <span class="project-link">github.com/username/repo →</span>
+            </a>
+            <a href="#" class="project-card" target="_blank">
+                <h3>🔧 Проект 3</h3>
+                <p>Описание проекта. Добавляй сколько нужно карточек.</p>
+                <span class="project-link">github.com/username/repo →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+        <h2 class="section-title">Образование <span>// education</span></h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>🎓 Высшее</h3>
+                <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;">
+                    Донской государственный технический университет, Ростов-на-Дону<br>
+                    <span style="color: var(--accent);">2023</span>
+                </p>
+            </div>
+            <div class="skill-card">
+                <h3>📚 Среднее специальное</h3>
+                <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;">
+                    Астраханский государственный колледж, Астрахань<br>
+                    Информационные технологии<br>
+                    <span style="color: var(--accent);">2019</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages -->
+    <section id="languages">
+        <h2 class="section-title">Языки <span>// languages</span></h2>
+        <div class="skills-grid" style="max-width: 600px;">
+            <div class="skill-card">
+                <h3>🇷🇺 Русский</h3>
+                <p style="color: var(--text-dim);">Родной</p>
+            </div>
+            <div class="skill-card">
+                <h3>🇬🇧 Английский</h3>
+                <p style="color: var(--text-dim);">B2 — Средне-продвинутый</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Сделано с 💚 и <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Рыбьяков Даниил · 2026</p>
+    </footer>
+
+    <script>
+        // ========== MATRIX RAIN ==========
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 5, 8, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff88';
+            ctx.font = fontSize + 'px JetBrains Mono';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ========== SCROLL REVEAL ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card, .job, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== LOADER ==========
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1200);
+        });
+
+        // ========== SMOOTH SCROLL FOR ANCHORS ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>'''
+
+
