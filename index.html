@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рыбьяков Даниил — Java Developer Резюме</title>
+    <title>Рыбьяков Даниил — Java Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -38,6 +38,47 @@
             color: var(--text);
             overflow-x: hidden;
             line-height: 1.7;
+        }
+
+        /* ========== LANGUAGE SWITCHER ========== */
+        .lang-switcher {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        .lang-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 255, 136, 0.08);
+        }
+
+        .lang-btn .flag {
+            font-size: 1.1rem;
         }
 
         /* ========== MATRIX CANVAS ========== */
@@ -463,20 +504,30 @@
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
+            .lang-switcher {
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .lang-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
             .hero-avatar {
                 width: 100px;
                 height: 100px;
                 font-size: 2.5rem;
             }
-            
+
             .timeline {
                 padding-left: 1.5rem;
             }
-            
+
             .job::before {
                 left: -1.5rem;
             }
-            
+
             section {
                 padding: 4rem 1.5rem;
             }
@@ -535,389 +586,581 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="page-loader" id="loader">
-        <div class="loader-text">&lt;init&gt; portfolio...</div>
-        <div class="loader-bar"></div>
+<!-- Loading Screen -->
+<div class="page-loader" id="loader">
+    <div class="loader-text" data-lang="loader">&lt;init&gt; portfolio...</div>
+    <div class="loader-bar"></div>
+</div>
+
+<!-- Language Switcher -->
+<div class="lang-switcher">
+    <button class="lang-btn active" data-lang-btn="ru">
+        <span class="flag">🇷🇺</span> RU
+    </button>
+    <button class="lang-btn" data-lang-btn="en">
+        <span class="flag">🇬🇧</span> EN
+    </button>
+</div>
+
+<!-- Matrix Background -->
+<canvas id="matrix-canvas"></canvas>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-avatar">DR</div>
+    <h1 data-lang="name">Рыбьяков Даниил</h1>
+    <p class="subtitle" data-lang="position">Java Developer</p>
+    <p class="tagline" data-lang="tagline">
+        5+ лет коммерческого опыта в высоконагруженных системах
+        <span>финтех</span> и <span>e-commerce</span>. Специализация — микросервисы,
+        event-driven архитектура, интеграции. Путь от legacy-монолита до production-ready микросервисов.
+    </p>
+    <div class="contacts-bar" style="margin-top: 2rem;">
+        <a href="tel:+79284102669" class="contact-link">📞 +7 (928) 410-26-69</a>
+        <a href="mailto:dryniakov@mail.ru" class="contact-link" data-lang="email">📩 Почта - dryniakov@mail.ru</a>
+        <a href="https://t.me/danilRyDeveloper" target="_blank" class="contact-link">💬 Telegram - @danilRyDeveloper</a>
     </div>
+    <div class="scroll-hint">
+        <span data-lang="scroll">листай вниз</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+    </div>
+</section>
 
-    <!-- Matrix Background -->
-    <canvas id="matrix-canvas"></canvas>
-
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-avatar">DR</div>
-        <h1>Рыбьяков Даниил</h1>
-        <p class="subtitle">Java Developer</p>
-        <p class="tagline">
-            5+ лет коммерческого опыта в высоконагруженных системах 
-            <span>финтех</span> и <span>e-commerce</span>. Специализация — микросервисы, 
-            event-driven архитектура, интеграции. Путь от legacy-монолита до production-ready микросервисов.
-        </p>
-        <div class="contacts-bar" style="margin-top: 2rem;">
-            <a href="tel:+79284102669" class="contact-link">📞 +7 (928) 410-26-69</a>
-            <a href="mailto:dryniakov@mail.ru" class="contact-link">📩 Почта - dryniakov@mail.ru</a>
-            <a href="https://t.me/danilRyDeveloper" target="_blank" class="contact-link">💬 Telegram - @danilRyDeveloper</a>
-        </div>
-        <div class="scroll-hint">
-            <span>листай вниз</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-        </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills">
-        <h2 class="section-title">Стек <span>// skills</span></h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>⚡ Языки</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">Java 8-21</span>
-                    <span class="skill-tag">Kotlin</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">C#</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🌱 Frameworks</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">Spring Boot</span>
-                    <span class="skill-tag">Spring Security</span>
-                    <span class="skill-tag">Spring Cloud</span>
-                    <span class="skill-tag">Spring AI</span>
-                    <span class="skill-tag">Spring Batch</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>💾 Базы данных</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">PostgreSQL</span>
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">Oracle DB</span>
-                    <span class="skill-tag">Redis</span>
-                    <span class="skill-tag">Elasticsearch</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>📨 Messaging</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">Apache Kafka</span>
-                    <span class="skill-tag">RabbitMQ</span>
-                    <span class="skill-tag">gRPC</span>
-                    <span class="skill-tag">REST API</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🐳 DevOps</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">Kubernetes</span>
-                    <span class="skill-tag">GitLab CI</span>
-                    <span class="skill-tag">Jenkins</span>
-                    <span class="skill-tag">Grafana</span>
-                    <span class="skill-tag">ELK Stack</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🧪 Тестирование</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">JUnit 5</span>
-                    <span class="skill-tag">Mockito</span>
-                    <span class="skill-tag">Integration Tests</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🧠 Архитектура</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">DDD</span>
-                    <span class="skill-tag">CQRS</span>
-                    <span class="skill-tag">Microservices</span>
-                    <span class="skill-tag">Event-Driven</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>🔧 Инструменты</h3>
-                <div class="skill-list">
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">Maven</span>
-                    <span class="skill-tag">Gradle</span>
-                    <span class="skill-tag">Apache Camel</span>
-                </div>
+<!-- Skills -->
+<section id="skills">
+    <h2 class="section-title" data-lang="skills-title">Стек <span>// skills</span></h2>
+    <div class="skills-grid">
+        <div class="skill-card">
+            <h3 data-lang="lang-title">⚡ Языки</h3>
+            <div class="skill-list">
+                <span class="skill-tag">Java 8-21</span>
+                <span class="skill-tag">Kotlin</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">C#</span>
             </div>
         </div>
-    </section>
-
-    <!-- Experience -->
-    <section id="experience">
-        <h2 class="section-title">Опыт <span>// experience</span></h2>
-        <div class="timeline">
-            <div class="job">
-                <div class="job-header">
-                    <h3 class="job-title">Java-разработчик</h3>
-                    <span class="job-period">Июль 2025 — наст. время</span>
-                </div>
-                <p class="job-company">Next fin Technologies — B2B платёжная платформа</p>
-                <p class="job-desc">Высоконагруженная микросервисная платформа</p>
-                <ul class="job-tasks">
-                    <li>Разработка новых микросервисов и фич (Spring Boot 3.x, Java 21)</li>
-                    <li>Интеграция с платёжными провайдерами через REST и gRPC</li>
-                    <li>Kafka — продюсеры и консьюмеры событий</li>
-                    <li>Слой данных: PostgreSQL, Spring Data JPA, Hibernate</li>
-                    <li>Покрытие кода юнит и интеграционными тестами</li>
-                    <li>Code review, рефакторинг, Scrum</li>
-                </ul>
-                <div class="job-stack">
-                    <span class="stack-tag">Java 21</span>
-                    <span class="stack-tag">Spring Boot</span>
-                    <span class="stack-tag">Kafka</span>
-                    <span class="stack-tag">PostgreSQL</span>
-                    <span class="stack-tag">Redis</span>
-                    <span class="stack-tag">Docker</span>
-                    <span class="stack-tag">gRPC</span>
-                    <span class="stack-tag">Grafana</span>
-                </div>
-            </div>
-
-            <div class="job">
-                <div class="job-header">
-                    <h3 class="job-title">Java-разработчик</h3>
-                    <span class="job-period">Август 2024 — Июль 2025</span>
-                </div>
-                <p class="job-company">Ideal — миграция монолита на микросервисы</p>
-                <ul class="job-tasks">
-                    <li>Выделение отдельных сервисов, поддержка параллельного запуска</li>
-                    <li>Интеграции с SAP и 1С через Apache Camel</li>
-                    <li>Асинхронные воркеры на RabbitMQ</li>
-                    <li>DDD-подход, агрегаты, доменные события</li>
-                    <li>Batch-обработка отчётности на Spring Batch</li>
-                    <li>Устранение уязвимостей OWASP Top 10</li>
-                </ul>
-                <div class="job-stack">
-                    <span class="stack-tag">Java 17</span>
-                    <span class="stack-tag">Spring Security</span>
-                    <span class="stack-tag">Oracle DB</span>
-                    <span class="stack-tag">RabbitMQ</span>
-                    <span class="stack-tag">Apache Camel</span>
-                    <span class="stack-tag">Spring Batch</span>
-                    <span class="stack-tag">Jenkins</span>
-                    <span class="stack-tag">ELK</span>
-                </div>
-            </div>
-
-            <div class="job">
-                <div class="job-header">
-                    <h3 class="job-title">Java-разработчик</h3>
-                    <span class="job-period">Июль 2022 — Август 2024</span>
-                </div>
-                <p class="job-company">ООО «Softline Решения» — e-commerce backend</p>
-                <ul class="job-tasks">
-                    <li>Backend: каталог товаров, корзина, оформление заказа</li>
-                    <li>Интеграция с Сбербанк Эквайринг, ЮKassa</li>
-                    <li>Поиск на Elasticsearch: фильтры, автодополнение, фасетный поиск</li>
-                    <li>Интеграция с CRM (Bitrix24) и WMS через REST/SOAP</li>
-                    <li>Тесты: JUnit 5, Mockito, coverage ~75%</li>
-                    <li>Миграция монолита: выделение сервиса каталога</li>
-                </ul>
-                <div class="job-stack">
-                    <span class="stack-tag">Java 11</span>
-                    <span class="stack-tag">Spring MVC</span>
-                    <span class="stack-tag">MySQL</span>
-                    <span class="stack-tag">Elasticsearch</span>
-                    <span class="stack-tag">Redis</span>
-                    <span class="stack-tag">GitLab CI</span>
-                </div>
-            </div>
-
-            <div class="job">
-                <div class="job-header">
-                    <h3 class="job-title">Java-разработчик</h3>
-                    <span class="job-period">Апрель 2021 — Июль 2022</span>
-                </div>
-                <p class="job-company">ООО «КОДИКС» — портал документооборота</p>
-                <ul class="job-tasks">
-                    <li>Модули загрузки документов с версионированием</li>
-                    <li>REST API для мобильного приложения</li>
-                    <li>Интеграция с КриптоПро DSS</li>
-                    <li>SQL-запросы и хранимые процедуры (PostgreSQL)</li>
-                    <li>Рефакторинг legacy-кода, code review</li>
-                </ul>
-                <div class="job-stack">
-                    <span class="stack-tag">Java 8</span>
-                    <span class="stack-tag">Spring</span>
-                    <span class="stack-tag">Hibernate</span>
-                    <span class="stack-tag">PostgreSQL</span>
-                    <span class="stack-tag">Maven</span>
-                </div>
+        <div class="skill-card">
+            <h3 data-lang="fw-title">🌱 Frameworks</h3>
+            <div class="skill-list">
+                <span class="skill-tag">Spring Boot</span>
+                <span class="skill-tag">Spring Security</span>
+                <span class="skill-tag">Spring Cloud</span>
+                <span class="skill-tag">Spring AI</span>
+                <span class="skill-tag">Spring Batch</span>
             </div>
         </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects">
-        <h2 class="section-title">Мои Проекты ✅<span>// projects</span></h2>
-        <div class="projects-grid">
-            
-            <a href="https://github.com/Daniil2022Ri/PaymentService" class="project-card" target="_blank">
-                <h3>🚀 Проект 1🔥</h3>
-                <p>Микросервис обработки платежей с асинхронной обработкой, кэшированием и enterprise-level security.</p>
-                <!--<span class="project-link">https://github.com/Daniil2022Ri/PaymentService →</span> -->
-            </a>
-            
-            <a href="https://github.com/Daniil2022Ri/AIAssistantBackend" class="project-card" target="_blank">
-                <h3>🤖 Проект 2🔥</h3>
-                <p>Реактивный бэкенд для AI-ассистента с интеграцией OpenAI API. Потоковая обработка ответов (SSE), контекст диалогов в Redis, история в PostgreSQL.</p>
-                <!--<span class="project-link">https://github.com/Daniil2022Ri/AIAssistantBackend →</span> -->
-            </a>
-            
-            <a href="https://github.com/Daniil2022Ri/Bank_DDD_Antifraund/tree/develop/antifraud" class="project-card" target="_blank">
-                <h3>🔧 Проект 3 🔥</h3>
-                <p>Прототип Микросервисной архитектруы работы реального банка (сильно урезанный - Зона ответственности Antifraud)</p>
-                <!--<span class="project-link">https://github.com/Daniil2022Ri/Bank_DDD_Antifraund/tree/develop/antifraud →</span> -->
-            </a>
-            
-            <a href="https://github.com/Daniil2022Ri/SpringSercutiry_V2/tree/main/src/main" class="project-card" target="_blank">
-                <h3>🔒 Проект 4 🔥</h3>
-                <p>Базовая демонстрация Spring Security c Frontend + Fetch</p>
-                <!-- <span class="project-link">https://github.com/Daniil2022Ri/PP_3_1_2_Boot_Security →</span> -->
-            </a>
-
-               <a href="https://github.com/Daniil2022Ri/MVC_Hibernate" class="project-card" target="_blank">
-                <h3>🌚 Проект 5 </h3>
-                <p>База Hibernate</p>
-                <!-- <span class="project-link">https://github.com/Daniil2022Ri/PP_3_1_2_Boot_Security →</span> -->
-            </a>
-
-               <a href="https://github.com/Daniil2022Ri/PP_2_2_2_spring-mvc/tree/master/src" class="project-card" target="_blank">
-                <h3>🌝 Проект 6 </h3>
-                <p>База Spring MVC</p>
-                <!-- <span class="project-link">https://github.com/Daniil2022Ri/PP_3_1_2_Boot_Security →</span> -->
-            </a>
-        </div>
-    </section>
-
-    <!-- Education -->
-    <section id="education">
-        <h2 class="section-title">Образование <span>// education</span></h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>🎓 Высшее</h3>
-                <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;">
-                    Донской государственный технический университет, Ростов-на-Дону<br>
-                    <span style="color: var(--accent);">2023</span>
-                </p>
-            </div>
-            <div class="skill-card">
-                <h3>📚 Среднее специальное</h3>
-                <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;">
-                    Астраханский государственный колледж, Астрахань<br>
-                    Информационные технологии<br>
-                    <span style="color: var(--accent);">2019</span>
-                </p>
+        <div class="skill-card">
+            <h3 data-lang="db-title">💾 Базы данных</h3>
+            <div class="skill-list">
+                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">MySQL</span>
+                <span class="skill-tag">Oracle DB</span>
+                <span class="skill-tag">Redis</span>
+                <span class="skill-tag">Elasticsearch</span>
             </div>
         </div>
-    </section>
-
-    <!-- Languages -->
-    <section id="languages">
-        <h2 class="section-title">Языки <span>// languages</span></h2>
-        <div class="skills-grid" style="max-width: 600px;">
-            <div class="skill-card">
-                <h3>🇷🇺 Русский</h3>
-                <p style="color: var(--text-dim);">Родной</p>
-            </div>
-            <div class="skill-card">
-                <h3>🇬🇧 Английский</h3>
-                <p style="color: var(--text-dim);">B2 — Средне-продвинутый</p>
+        <div class="skill-card">
+            <h3 data-lang="msg-title">📨 Messaging</h3>
+            <div class="skill-list">
+                <span class="skill-tag">Apache Kafka</span>
+                <span class="skill-tag">RabbitMQ</span>
+                <span class="skill-tag">gRPC</span>
+                <span class="skill-tag">REST API</span>
             </div>
         </div>
-    </section>
+        <div class="skill-card">
+            <h3 data-lang="devops-title">🐳 DevOps</h3>
+            <div class="skill-list">
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">GitLab CI</span>
+                <span class="skill-tag">Jenkins</span>
+                <span class="skill-tag">Grafana</span>
+                <span class="skill-tag">ELK Stack</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3 data-lang="test-title">🧪 Тестирование</h3>
+            <div class="skill-list">
+                <span class="skill-tag">JUnit 5</span>
+                <span class="skill-tag">Mockito</span>
+                <span class="skill-tag">Integration Tests</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3 data-lang="arch-title">🧠 Архитектура</h3>
+            <div class="skill-list">
+                <span class="skill-tag">DDD</span>
+                <span class="skill-tag">CQRS</span>
+                <span class="skill-tag">Microservices</span>
+                <span class="skill-tag">Event-Driven</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3 data-lang="tools-title">🔧 Инструменты</h3>
+            <div class="skill-list">
+                <span class="skill-tag">Git</span>
+                <span class="skill-tag">Maven</span>
+                <span class="skill-tag">Gradle</span>
+                <span class="skill-tag">Apache Camel</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <footer>
-        <p>Сделано с 💚 и <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
-        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Рыбьяков Даниил · 2026</p>
-    </footer>
+<!-- Experience -->
+<section id="experience">
+    <h2 class="section-title" data-lang="exp-title">Опыт <span>// experience</span></h2>
+    <div class="timeline">
+        <div class="job">
+            <div class="job-header">
+                <h3 class="job-title" data-lang="job1-title">Java-разработчик</h3>
+                <span class="job-period" data-lang="job1-period">Июль 2025 — наст. время</span>
+            </div>
+            <p class="job-company" data-lang="job1-company">Next fin Technologies — B2B платёжная платформа</p>
+            <p class="job-desc" data-lang="job1-desc">Высоконагруженная микросервисная платформа</p>
+            <ul class="job-tasks">
+                <li data-lang="job1-t1">Разработка новых микросервисов и фич (Spring Boot 3.x, Java 21)</li>
+                <li data-lang="job1-t2">Интеграция с платёжными провайдерами через REST и gRPC</li>
+                <li data-lang="job1-t3">Kafka — продюсеры и консьюмеры событий</li>
+                <li data-lang="job1-t4">Слой данных: PostgreSQL, Spring Data JPA, Hibernate</li>
+                <li data-lang="job1-t5">Покрытие кода юнит и интеграционными тестами</li>
+                <li data-lang="job1-t6">Code review, рефакторинг, Scrum</li>
+            </ul>
+            <div class="job-stack">
+                <span class="stack-tag">Java 21</span>
+                <span class="stack-tag">Spring Boot</span>
+                <span class="stack-tag">Kafka</span>
+                <span class="stack-tag">PostgreSQL</span>
+                <span class="stack-tag">Redis</span>
+                <span class="stack-tag">Docker</span>
+                <span class="stack-tag">gRPC</span>
+                <span class="stack-tag">Grafana</span>
+            </div>
+        </div>
 
-    <script>
-        // ========== MATRIX RAIN ==========
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        
+        <div class="job">
+            <div class="job-header">
+                <h3 class="job-title" data-lang="job2-title">Java-разработчик</h3>
+                <span class="job-period" data-lang="job2-period">Август 2024 — Июль 2025</span>
+            </div>
+            <p class="job-company" data-lang="job2-company">Ideal — миграция монолита на микросервисы</p>
+            <ul class="job-tasks">
+                <li data-lang="job2-t1">Выделение отдельных сервисов, поддержка параллельного запуска</li>
+                <li data-lang="job2-t2">Интеграции с SAP и 1С через Apache Camel</li>
+                <li data-lang="job2-t3">Асинхронные воркеры на RabbitMQ</li>
+                <li data-lang="job2-t4">DDD-подход, агрегаты, доменные события</li>
+                <li data-lang="job2-t5">Batch-обработка отчётности на Spring Batch</li>
+                <li data-lang="job2-t6">Устранение уязвимостей OWASP Top 10</li>
+            </ul>
+            <div class="job-stack">
+                <span class="stack-tag">Java 17</span>
+                <span class="stack-tag">Spring Security</span>
+                <span class="stack-tag">Oracle DB</span>
+                <span class="stack-tag">RabbitMQ</span>
+                <span class="stack-tag">Apache Camel</span>
+                <span class="stack-tag">Spring Batch</span>
+                <span class="stack-tag">Jenkins</span>
+                <span class="stack-tag">ELK</span>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <h3 class="job-title" data-lang="job3-title">Java-разработчик</h3>
+                <span class="job-period" data-lang="job3-period">Июль 2022 — Август 2024</span>
+            </div>
+            <p class="job-company" data-lang="job3-company">ООО «Softline Решения» — e-commerce backend</p>
+            <ul class="job-tasks">
+                <li data-lang="job3-t1">Backend: каталог товаров, корзина, оформление заказа</li>
+                <li data-lang="job3-t2">Интеграция с Сбербанк Эквайринг, ЮKassa</li>
+                <li data-lang="job3-t3">Поиск на Elasticsearch: фильтры, автодополнение, фасетный поиск</li>
+                <li data-lang="job3-t4">Интеграция с CRM (Bitrix24) и WMS через REST/SOAP</li>
+                <li data-lang="job3-t5">Тесты: JUnit 5, Mockito, coverage ~75%</li>
+                <li data-lang="job3-t6">Миграция монолита: выделение сервиса каталога</li>
+            </ul>
+            <div class="job-stack">
+                <span class="stack-tag">Java 11</span>
+                <span class="stack-tag">Spring MVC</span>
+                <span class="stack-tag">MySQL</span>
+                <span class="stack-tag">Elasticsearch</span>
+                <span class="stack-tag">Redis</span>
+                <span class="stack-tag">GitLab CI</span>
+            </div>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <h3 class="job-title" data-lang="job4-title">Java-разработчик</h3>
+                <span class="job-period" data-lang="job4-period">Апрель 2021 — Июль 2022</span>
+            </div>
+            <p class="job-company" data-lang="job4-company">ООО «КОДИКС» — портал документооборота</p>
+            <ul class="job-tasks">
+                <li data-lang="job4-t1">Модули загрузки документов с версионированием</li>
+                <li data-lang="job4-t2">REST API для мобильного приложения</li>
+                <li data-lang="job4-t3">Интеграция с КриптоПро DSS</li>
+                <li data-lang="job4-t4">SQL-запросы и хранимые процедуры (PostgreSQL)</li>
+                <li data-lang="job4-t5">Рефакторинг legacy-кода, code review</li>
+            </ul>
+            <div class="job-stack">
+                <span class="stack-tag">Java 8</span>
+                <span class="stack-tag">Spring</span>
+                <span class="stack-tag">Hibernate</span>
+                <span class="stack-tag">PostgreSQL</span>
+                <span class="stack-tag">Maven</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+    <h2 class="section-title" data-lang="projects-title">Мои Проекты ✅<span>// projects</span></h2>
+    <div class="projects-grid">
+
+        <a href="https://github.com/Daniil2022Ri/PaymentService" class="project-card" target="_blank">
+            <h3 data-lang="proj1-title">🚀 Проект 1🔥</h3>
+            <p data-lang="proj1-desc">Микросервис обработки платежей с асинхронной обработкой, кэшированием и enterprise-level security.</p>
+        </a>
+
+        <a href="https://github.com/Daniil2022Ri/AIAssistantBackend" class="project-card" target="_blank">
+            <h3 data-lang="proj2-title">🤖 Проект 2🔥</h3>
+            <p data-lang="proj2-desc">Реактивный бэкенд для AI-ассистента с интеграцией OpenAI API. Потоковая обработка ответов (SSE), контекст диалогов в Redis, история в PostgreSQL.</p>
+        </a>
+
+        <a href="https://github.com/Daniil2022Ri/Bank_DDD_Antifraund/tree/develop/antifraud" class="project-card" target="_blank">
+            <h3 data-lang="proj3-title">🔧 Проект 3 🔥</h3>
+            <p data-lang="proj3-desc">Прототип микросервисной архитектуры реального банка (сильно урезанный — зона ответственности Antifraud)</p>
+        </a>
+
+        <a href="https://github.com/Daniil2022Ri/SpringSercutiry_V2/tree/main/src/main" class="project-card" target="_blank">
+            <h3 data-lang="proj4-title">🔒 Проект 4 🔥</h3>
+            <p data-lang="proj4-desc">Базовая демонстрация Spring Security с Frontend + Fetch</p>
+        </a>
+
+        <a href="https://github.com/Daniil2022Ri/MVC_Hibernate" class="project-card" target="_blank">
+            <h3 data-lang="proj5-title">🌚 Проект 5 </h3>
+            <p data-lang="proj5-desc">База Hibernate</p>
+        </a>
+
+        <a href="https://github.com/Daniil2022Ri/PP_2_2_2_spring-mvc/tree/master/src" class="project-card" target="_blank">
+            <h3 data-lang="proj6-title">🌝 Проект 6 </h3>
+            <p data-lang="proj6-desc">База Spring MVC</p>
+        </a>
+    </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+    <h2 class="section-title" data-lang="edu-title">Образование <span>// education</span></h2>
+    <div class="skills-grid">
+        <div class="skill-card">
+            <h3 data-lang="edu1-title">🎓 Высшее</h3>
+            <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;" data-lang="edu1-text">
+                Донской государственный технический университет, Ростов-на-Дону<br>
+                <span style="color: var(--accent);">2023</span>
+            </p>
+        </div>
+        <div class="skill-card">
+            <h3 data-lang="edu2-title">📚 Среднее специальное</h3>
+            <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 0.5rem;" data-lang="edu2-text">
+                Астраханский государственный колледж, Астрахань<br>
+                Информационные технологии<br>
+                <span style="color: var(--accent);">2019</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Languages -->
+<section id="languages">
+    <h2 class="section-title" data-lang="lang-section-title">Языки <span>// languages</span></h2>
+    <div class="skills-grid" style="max-width: 600px;">
+        <div class="skill-card">
+            <h3 data-lang="ru-lang">🇷🇺 Русский</h3>
+            <p style="color: var(--text-dim);" data-lang="ru-level">Родной</p>
+        </div>
+        <div class="skill-card">
+            <h3 data-lang="en-lang">🇬🇧 Английский</h3>
+            <p style="color: var(--text-dim);" data-lang="en-level">B2 — Средне-продвинутый</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p data-lang="footer1">Сделано с 💚 и <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;" data-lang="footer2">Рыбьяков Даниил · 2026</p>
+</footer>
+
+<script>
+    // ========== TRANSLATIONS ==========
+    const translations = {
+        ru: {
+            loader: "&lt;init&gt; portfolio...",
+            name: "Рыбьяков Даниил",
+            position: "Java Developer",
+            tagline: '5+ лет коммерческого опыта в высоконагруженных системах <span>финтех</span> и <span>e-commerce</span>. Специализация — микросервисы, event-driven архитектура, интеграции. Путь от legacy-монолита до production-ready микросервисов.',
+            email: "📩 Почта - dryniakov@mail.ru",
+            scroll: "листай вниз",
+            "skills-title": 'Стек <span>// skills</span>',
+            "lang-title": "⚡ Языки",
+            "fw-title": "🌱 Frameworks",
+            "db-title": "💾 Базы данных",
+            "msg-title": "📨 Messaging",
+            "devops-title": "🐳 DevOps",
+            "test-title": "🧪 Тестирование",
+            "arch-title": "🧠 Архитектура",
+            "tools-title": "🔧 Инструменты",
+            "exp-title": 'Опыт <span>// experience</span>',
+            "job1-title": "Java-разработчик",
+            "job1-period": "Июль 2025 — наст. время",
+            "job1-company": "Next fin Technologies — B2B платёжная платформа",
+            "job1-desc": "Высоконагруженная микросервисная платформа",
+            "job1-t1": "Разработка новых микросервисов и фич (Spring Boot 3.x, Java 21)",
+            "job1-t2": "Интеграция с платёжными провайдерами через REST и gRPC",
+            "job1-t3": "Kafka — продюсеры и консьюмеры событий",
+            "job1-t4": "Слой данных: PostgreSQL, Spring Data JPA, Hibernate",
+            "job1-t5": "Покрытие кода юнит и интеграционными тестами",
+            "job1-t6": "Code review, рефакторинг, Scrum",
+            "job2-title": "Java-разработчик",
+            "job2-period": "Август 2024 — Июль 2025",
+            "job2-company": "Ideal — миграция монолита на микросервисы",
+            "job2-t1": "Выделение отдельных сервисов, поддержка параллельного запуска",
+            "job2-t2": "Интеграции с SAP и 1С через Apache Camel",
+            "job2-t3": "Асинхронные воркеры на RabbitMQ",
+            "job2-t4": "DDD-подход, агрегаты, доменные события",
+            "job2-t5": "Batch-обработка отчётности на Spring Batch",
+            "job2-t6": "Устранение уязвимостей OWASP Top 10",
+            "job3-title": "Java-разработчик",
+            "job3-period": "Июль 2022 — Август 2024",
+            "job3-company": "ООО «Softline Решения» — e-commerce backend",
+            "job3-t1": "Backend: каталог товаров, корзина, оформление заказа",
+            "job3-t2": "Интеграция с Сбербанк Эквайринг, ЮKassa",
+            "job3-t3": "Поиск на Elasticsearch: фильтры, автодополнение, фасетный поиск",
+            "job3-t4": "Интеграция с CRM (Bitrix24) и WMS через REST/SOAP",
+            "job3-t5": "Тесты: JUnit 5, Mockito, coverage ~75%",
+            "job3-t6": "Миграция монолита: выделение сервиса каталога",
+            "job4-title": "Java-разработчик",
+            "job4-period": "Апрель 2021 — Июль 2022",
+            "job4-company": "ООО «КОДИКС» — портал документооборота",
+            "job4-t1": "Модули загрузки документов с версионированием",
+            "job4-t2": "REST API для мобильного приложения",
+            "job4-t3": "Интеграция с КриптоПро DSS",
+            "job4-t4": "SQL-запросы и хранимые процедуры (PostgreSQL)",
+            "job4-t5": "Рефакторинг legacy-кода, code review",
+            "projects-title": 'Мои Проекты ✅<span>// projects</span>',
+            "proj1-title": "🚀 Проект 1🔥",
+            "proj1-desc": "Микросервис обработки платежей с асинхронной обработкой, кэшированием и enterprise-level security.",
+            "proj2-title": "🤖 Проект 2🔥",
+            "proj2-desc": "Реактивный бэкенд для AI-ассистента с интеграцией OpenAI API. Потоковая обработка ответов (SSE), контекст диалогов в Redis, история в PostgreSQL.",
+            "proj3-title": "🔧 Проект 3 🔥",
+            "proj3-desc": "Прототип микросервисной архитектуры реального банка (сильно урезанный — зона ответственности Antifraud)",
+            "proj4-title": "🔒 Проект 4 🔥",
+            "proj4-desc": "Базовая демонстрация Spring Security с Frontend + Fetch",
+            "proj5-title": "🌚 Проект 5 ",
+            "proj5-desc": "База Hibernate",
+            "proj6-title": "🌝 Проект 6 ",
+            "proj6-desc": "База Spring MVC",
+            "edu-title": 'Образование <span>// education</span>',
+            "edu1-title": "🎓 Высшее",
+            "edu1-text": 'Донской государственный технический университет, Ростов-на-Дону<br><span style="color: var(--accent);">2023</span>',
+            "edu2-title": "📚 Среднее специальное",
+            "edu2-text": 'Астраханский государственный колледж, Астрахань<br>Информационные технологии<br><span style="color: var(--accent);">2019</span>',
+            "lang-section-title": 'Языки <span>// languages</span>',
+            "ru-lang": "🇷🇺 Русский",
+            "ru-level": "Родной",
+            "en-lang": "🇬🇧 Английский",
+            "en-level": "B2 — Средне-продвинутый",
+            "footer1": 'Сделано с 💚 и <a href="https://pages.github.com" target="_blank">GitHub Pages</a>',
+            "footer2": "Рыбьяков Даниил · 2026"
+        },
+        en: {
+            loader: "&lt;init&gt; portfolio...",
+            name: "Daniil Rybiyakov",
+            position: "Java Developer",
+            tagline: '5+ years of commercial experience in high-load <span>fintech</span> and <span>e-commerce</span> systems. Specialization — microservices, event-driven architecture, integrations. Path from legacy monolith to production-ready microservices.',
+            email: "📩 Email - dryniakov@mail.ru",
+            scroll: "scroll down",
+            "skills-title": 'Stack <span>// skills</span>',
+            "lang-title": "⚡ Languages",
+            "fw-title": "🌱 Frameworks",
+            "db-title": "💾 Databases",
+            "msg-title": "📨 Messaging",
+            "devops-title": "🐳 DevOps",
+            "test-title": "🧪 Testing",
+            "arch-title": "🧠 Architecture",
+            "tools-title": "🔧 Tools",
+            "exp-title": 'Experience <span>// experience</span>',
+            "job1-title": "Java Developer",
+            "job1-period": "July 2025 — Present",
+            "job1-company": "Next fin Technologies — B2B Payment Platform",
+            "job1-desc": "High-load microservices platform",
+            "job1-t1": "Development of new microservices and features (Spring Boot 3.x, Java 21)",
+            "job1-t2": "Integration with payment providers via REST and gRPC",
+            "job1-t3": "Kafka — event producers and consumers",
+            "job1-t4": "Data layer: PostgreSQL, Spring Data JPA, Hibernate",
+            "job1-t5": "Unit and integration test coverage",
+            "job1-t6": "Code review, refactoring, Scrum",
+            "job2-title": "Java Developer",
+            "job2-period": "August 2024 — July 2025",
+            "job2-company": "Ideal — Monolith to Microservices Migration",
+            "job2-t1": "Extraction of separate services, parallel run support",
+            "job2-t2": "Integrations with SAP and 1C via Apache Camel",
+            "job2-t3": "Async workers on RabbitMQ",
+            "job2-t4": "DDD approach, aggregates, domain events",
+            "job2-t5": "Batch report processing with Spring Batch",
+            "job2-t6": "OWASP Top 10 vulnerability remediation",
+            "job3-title": "Java Developer",
+            "job3-period": "July 2022 — August 2024",
+            "job3-company": "Softline Solutions LLC — e-commerce backend",
+            "job3-t1": "Backend: product catalog, cart, order checkout",
+            "job3-t2": "Integration with Sberbank Acquiring, YooKassa",
+            "job3-t3": "Elasticsearch search: filters, autocomplete, faceted search",
+            "job3-t4": "Integration with CRM (Bitrix24) and WMS via REST/SOAP",
+            "job3-t5": "Tests: JUnit 5, Mockito, coverage ~75%",
+            "job3-t6": "Monolith migration: catalog service extraction",
+            "job4-title": "Java Developer",
+            "job4-period": "April 2021 — July 2022",
+            "job4-company": "CODIX LLC — Document Management Portal",
+            "job4-t1": "Document upload modules with versioning",
+            "job4-t2": "REST API for mobile application",
+            "job4-t3": "Integration with CryptoPro DSS",
+            "job4-t4": "SQL queries and stored procedures (PostgreSQL)",
+            "job4-t5": "Legacy code refactoring, code review",
+            "projects-title": 'My Projects ✅<span>// projects</span>',
+            "proj1-title": "🚀 Project 1🔥",
+            "proj1-desc": "Payment processing microservice with async handling, caching and enterprise-level security.",
+            "proj2-title": "🤖 Project 2🔥",
+            "proj2-desc": "Reactive backend for AI assistant with OpenAI API integration. Streaming response processing (SSE), dialog context in Redis, history in PostgreSQL.",
+            "proj3-title": "🔧 Project 3 🔥",
+            "proj3-desc": "Prototype of real bank microservices architecture (heavily simplified — Antifraud domain)",
+            "proj4-title": "🔒 Project 4 🔥",
+            "proj4-desc": "Basic Spring Security demo with Frontend + Fetch",
+            "proj5-title": "🌚 Project 5 ",
+            "proj5-desc": "Hibernate basics",
+            "proj6-title": "🌝 Project 6 ",
+            "proj6-desc": "Spring MVC basics",
+            "edu-title": 'Education <span>// education</span>',
+            "edu1-title": "🎓 Bachelor's Degree",
+            "edu1-text": 'Don State Technical University, Rostov-on-Don<br><span style="color: var(--accent);">2023</span>',
+            "edu2-title": "📚 Secondary Vocational",
+            "edu2-text": 'Astrakhan State College, Astrakhan<br>Information Technology<br><span style="color: var(--accent);">2019</span>',
+            "lang-section-title": 'Languages <span>// languages</span>',
+            "ru-lang": "🇷🇺 Russian",
+            "ru-level": "Native",
+            "en-lang": "🇬🇧 English",
+            "en-level": "B2 — Upper-Intermediate",
+            "footer1": 'Made with 💚 and <a href="https://pages.github.com" target="_blank">GitHub Pages</a>',
+            "footer2": "Daniil Rybiyakov · 2026"
+        }
+    };
+
+    let currentLang = 'ru';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
+
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (t[key]) {
+                el.innerHTML = t[key];
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+        });
+
+        document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
+    }
+
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setLanguage(btn.getAttribute('data-lang-btn'));
+        });
+    });
+
+    // ========== MATRIX RAIN ==========
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+    }
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(5, 5, 8, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff88';
+        ctx.font = fontSize + 'px JetBrains Mono';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(drawMatrix, 35);
+
+    window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        
-        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100;
-        }
-        
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(5, 5, 8, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px JetBrains Mono';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
+    });
+
+    // ========== SCROLL REVEAL ==========
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
             }
-        }
-        
-        setInterval(drawMatrix, 35);
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         });
+    }, observerOptions);
 
-        // ========== SCROLL REVEAL ==========
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+    document.querySelectorAll('.skill-card, .job, .project-card').forEach(el => {
+        observer.observe(el);
+    });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+    // ========== LOADER ==========
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1200);
+    });
 
-        document.querySelectorAll('.skill-card, .job, .project-card').forEach(el => {
-            observer.observe(el);
+    // ========== SMOOTH SCROLL FOR ANCHORS ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
-
-        // ========== LOADER ==========
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 1200);
-        });
-
-        // ========== SMOOTH SCROLL FOR ANCHORS ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+    });
+</script>
 </body>
-</html>'''
+</html>
 
 
